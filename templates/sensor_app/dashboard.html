@@ -1,0 +1,509 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'sensor_app/assets/img/apple-icon.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'sensor_app/assets/img/favicon.png' %}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <title>
+    Proiect PAI
+  </title>
+   <!-- jQuery -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- CSS Files -->
+  <link href="{% static 'sensor_app/assets/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'sensor_app/assets/css/paper-dashboard.css' %}" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="{% static 'sensor_app/assets/demo/demo.css' %}" rel="stylesheet" />
+ 
+</head>
+
+<body class="">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="black" data-active-color="danger">
+      <div class="logo">
+        <a class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="{% static 'sensor_app/assets/img/logo-small.png' %}">
+          </div>
+        </a>
+        <a class="simple-text logo-normal">
+          Braescu Stefan
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li>
+            <a href="{% url 'login' %}">
+              <i class="nc-icon nc-key-25"></i>
+              <p>Login</p>
+            </a>
+          </li>
+          <li class="active ">
+            <a href="{% url 'dashboard' %}">
+              <i class="nc-icon nc-tv-2"></i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+           <!-- <li>
+            <a href="{% url 'user_profile' %}">
+              <i class="nc-icon nc-single-02"></i>
+              <p>User Profile</p>
+            </a>
+          </li>  -->
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+          <div class="container-fluid">
+            <div class="navbar-wrapper">
+              <div class="navbar-toggle">
+                <button type="button" class="navbar-toggler">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </button>
+              </div>
+              <a class="navbar-brand">Date Senzori</a>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
+        <div class="content">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-body ">
+                  <div class="row">
+                    <div class="col-5 col-md-4">
+                      <div class="icon-big text-center icon-warning">
+                        <i class="nc-icon nc-sun-fog-29 text-warning"></i>
+                      </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                      <div class="numbers">
+                        <p class="card-category">Temperatura</p>
+                        <p class="card-title"><span id="temp-value">{{ temperature|default:"N/A" }}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                  <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    Update Now
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-body ">
+                  <div class="row">
+                    <div class="col-5 col-md-4">
+                      <div class="icon-big text-center icon-warning">
+                        <i class="nc-icon nc-umbrella-13 text-success"></i>
+                      </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                      <div class="numbers">
+                        <p class="card-category">Umiditate</p>
+                        <p class="card-title"><span id="hum-value">{{ humidity|default:"N/A" }}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                  <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    Update now
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-body ">
+                  <div class="row">
+                    <div class="col-5 col-md-4">
+                      <div class="icon-big text-center icon-warning">
+                        <i class="nc-icon nc-bulb-63 text-danger"></i>
+                      </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                      <div class="numbers">
+                        <p class="card-category">Luminozitate</p>
+                        <p class="card-title"><span id="lum-value">{{ luminosity|default:"N/A" }}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                  <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    Update now
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-body ">
+                  <div class="row">
+                    <div class="col-5 col-md-4">
+                      <div class="icon-big text-center icon-warning">
+                        <i class="nc-icon nc-settings-gear-65 text-primary"></i>
+                      </div>
+                    </div>
+                    <div class="col-7 col-md-8">
+                      <div class="numbers">
+                        <p class="card-category">Potentiometru</p>
+                        <p class="card-title"><span id="pot-value">{{ pot_value|default:"N/A" }}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                  <div class="stats">
+                    <i class="fa fa-refresh"></i>
+                    Update now
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card ">
+                <div class="card-header ">
+                  <h5 class="card-title">Grafic date senzori</h5>
+                  <p class="card-category">Interval 5 minute</p>
+                </div>
+                <div class="card-body ">
+                  <div class="container">
+                    <!-- Navigation Buttons -->
+                    <div class="row mb-4">
+                      <div class="col-12 text-center">
+                        <button class="btn btn-primary mx-2" onclick="showGraph('pot-chart')">Potentiometer</button>
+                        <button class="btn btn-primary mx-2" onclick="showGraph('temp-chart')">Temperature</button>
+                        <button class="btn btn-primary mx-2" onclick="showGraph('hum-chart')">Humidity</button>
+                        <button class="btn btn-primary mx-2" onclick="showGraph('lum-chart')">Luminosity</button>
+                      </div>
+                    </div>
+                  
+                    <!-- Graphs -->
+                    <div class="row">
+                      <div class="col-12">
+                        <!-- Potentiometer Graph -->
+                        <div class="card graph-container" id="pot-chart-container" style="display: block;">
+                          <div class="card-body">
+                            <canvas id="pot-chart" width="450" height="225"></canvas>
+                          </div>
+                        </div>                        
+                        <!-- Temperature Graph -->
+                        <div class="card graph-container" id="temp-chart-container" style="display: none;">
+                          <div class="card-body">
+                            <canvas id="temp-chart" width="450" height="225"></canvas>
+                          </div>
+                        </div>
+                  
+                        <!-- Humidity Graph -->
+                        <div class="card graph-container" id="hum-chart-container" style="display: none;">
+                          <div class="card-body">
+                            <canvas id="hum-chart" width="450" height="225"></canvas>
+                          </div>
+                        </div>
+                  
+                        <!-- Luminosity Graph -->
+                        <div class="card graph-container" id="lum-chart-container" style="display: none;">
+                          <div class="card-body">
+                            <canvas id="lum-chart" width="450" height="225"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                 
+                </div>
+                </div>
+                <div class="card-footer ">
+                  <hr>
+                  <div class="stats">
+                    <i class="fa fa-history"></i> Updated 1 minute ago
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+   <!-- Core JS Files -->
+   <script src="{% static 'sensor_app/assets/js/core/jquery.min.js' %}"></script>
+   <script src="{% static 'sensor_app/assets/js/core/popper.min.js' %}"></script>
+   <script src="{% static 'sensor_app/assets/js/core/bootstrap.min.js' %}"></script>
+   <script src="{% static 'sensor_app/assets/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+   <!-- Google Maps Plugin -->
+   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+   <!-- Chart JS -->
+   <script src="{% static 'sensor_app/assets/js/plugins/chartjs.min.js' %}"></script>
+   <!-- Notifications Plugin -->
+   <script src="{% static 'sensor_app/assets/js/plugins/bootstrap-notify.js' %}"></script>
+   <!-- Control Center for Paper Dashboard -->
+  <!--  <script src="{% static 'sensor_app/assets/js/paper-dashboard.min.js?v=2.0.1' %}" type="text/javascript"></script> -->
+   <!-- Paper Dashboard DEMO methods -->
+   <script src="{% static 'sensor_app/assets/demo/demo.js' %}"></script>
+   <script>
+    // Function to show the selected graph and hide the others
+    function showGraph(graphId) {
+      // Hide all graphs
+      const graphs = document.querySelectorAll('.graph-container');
+      graphs.forEach(graph => {
+        graph.style.display = 'none';
+      });
+  
+      // Show the selected graph
+      document.getElementById(`${graphId}-container`).style.display = 'block';
+    }
+  </script>
+   <script>
+    let potData = [];
+    let tempData = [];
+    let humData = [];
+    let lumData = [];
+    let timeLabels = [];
+
+  // Create all the Chart.js charts for the sensors
+  function createCharts() {
+      // Potentiometer Chart
+      const potCtx = document.getElementById('pot-chart').getContext('2d');
+      potChart = new Chart(potCtx, {
+          type: 'line',
+          data: {
+              labels: timeLabels,
+              datasets: [{
+                  label: 'Potentiometer Value',
+                  data: potData,
+                  borderColor: 'rgba(40, 167, 69, 1)',
+                  fill: false
+                  //pointRadius: 0  // Removes points from the line
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      ticks: { autoSkip: true, maxTicksLimit: 10 },
+                      title: { display: true, text: 'Time (seconds)' }
+                  },
+                  y: { beginAtZero: true ,
+                    min: 0,
+                    max: 1023
+                  }
+              },
+              responsive: true
+          }
+      });
+
+      // Temperature Chart
+      const tempCtx = document.getElementById('temp-chart').getContext('2d');
+      tempChart = new Chart(tempCtx, {
+          type: 'line',
+          data: {
+              labels: timeLabels,
+              datasets: [{
+                  label: 'Temperature (°C)',
+                  data: tempData,
+                  borderColor: 'rgba(255, 159, 64, 1)',
+                  fill: false
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      ticks: { autoSkip: true, maxTicksLimit: 10 },
+                      title: { display: true, text: 'Time (seconds)' }
+                  },
+                  y: { beginAtZero: true,
+                    min: 0,
+                    max: 40
+                  }
+              },
+              responsive: true
+          }
+      });
+
+      // Humidity Chart
+      const humCtx = document.getElementById('hum-chart').getContext('2d');
+      humChart = new Chart(humCtx, {
+          type: 'line',
+          data: {
+              labels: timeLabels,
+              datasets: [{
+                  label: 'Humidity (%)',
+                  data: humData,
+                  borderColor: 'rgba(0, 123, 255, 1)',
+                  fill: false
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      ticks: { autoSkip: true, maxTicksLimit: 10 },
+                      title: { display: true, text: 'Time (seconds)' }
+                  },
+                  y: { beginAtZero: true,
+                    min: 0,
+                    max: 100
+                  }
+              },
+              responsive: true
+          }
+      });
+    
+    // Luminosity Chart
+    const lumCtx = document.getElementById('lum-chart').getContext('2d');
+    lumChart = new Chart(lumCtx, {
+        type: 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                label: 'Luminosity (%)',
+                data: lumData,
+                borderColor: 'rgba(255, 255, 102, 1)',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: { autoSkip: true, maxTicksLimit: 10 },
+                    title: { display: true, text: 'Time (seconds)' }
+                },
+                y: { beginAtZero: true }
+            },
+            responsive: true
+        }
+    });
+  }
+
+  $(document).ready(function() {
+    createCharts();
+    // Update chart data every minute
+    setInterval(updateChartData, 1000); // 1 second
+    // Update card values every second
+    setInterval(updateCardValues, 1500); // 1 second
+
+    
+});
+
+// Function to update live card values
+function updateCardValues() {
+    $.ajax({
+        url: "{% url 'get_sensor_data' %}",
+        method: "GET",
+        success: function(response) {
+            if (response.pot_value !== undefined) {
+                $('#pot-value').text(response.pot_value);
+            }
+            if (response.temperature !== undefined) {
+                $('#temp-value').text(response.temperature + " °C");
+            }
+            if (response.humidity !== undefined) {
+                $('#hum-value').text(response.humidity + " %");
+            }
+            if (response.luminosity !== undefined) {
+                $('#lum-value').text(response.luminosity) + " %";
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching card values: ", error);
+        }
+    });
+}
+
+// Throttle interval (in milliseconds)
+let lastUpdateTime = 0;
+const updateInterval = 200; // Update every 200 ms
+
+// Function to update chart data
+function updateChartData() {
+    $.ajax({
+        url: "{% url 'get_sensor_data' %}",
+        method: "GET",
+        success: function(response) {
+            // Get current time for throttling chart updates
+            let currentTime = timeLabels.length > 0 ? timeLabels[timeLabels.length - 1] + 1 : 0;
+            let now = Date.now();
+
+            // Only update the chart every `updateInterval` milliseconds
+            if (now - lastUpdateTime < updateInterval) {
+                return; // Skip if we don't need to update yet
+            }
+
+            lastUpdateTime = now; // Update the last update time
+
+            // Check if sensor data exists and update the chart accordingly
+            if (response.pot_value !== undefined) {
+                // Add new data for potentiometer
+                potData.push(response.pot_value);
+                timeLabels.push(currentTime);
+                if (potData.length > 300) {
+                    potData = potData.slice(1);  // Efficiently manage data size
+                    timeLabels = timeLabels.slice(1);  // Efficiently manage time labels
+                }
+                potChart.update();  // Update the chart with the new data
+            }
+
+            if (response.temperature !== undefined) {
+                // Add new data for temperature
+                tempData.push(response.temperature);
+                if (tempData.length > 300) {
+                    tempData = tempData.slice(1);  // Efficiently manage data size
+                }
+                tempChart.update();  // Update the chart with the new data
+            }
+
+            if (response.humidity !== undefined) {
+                // Add new data for humidity
+                humData.push(response.humidity);
+                if (humData.length > 300) {
+                    humData = humData.slice(1);  // Efficiently manage data size
+                }
+                humChart.update();  // Update the chart with the new data
+            }
+
+            if (response.luminosity !== undefined) {
+                // Update the luminosity value in the UI
+                $('#lum-value').text(response.luminosity);
+                
+                // Add new data for luminosity
+                lumData.push(response.luminosity);
+                if (lumData.length > 300) {
+                    lumData = lumData.slice(1);  // Efficiently manage data size
+                }
+                lumChart.update();  // Update the chart with the new data
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching chart data: ", error);
+        }
+    });
+}
+
+</script>
+  
+</body>
+
+</html>
